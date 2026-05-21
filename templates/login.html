@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>SRAteliê Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="login-bg">
+
+<div class="login-overlay">
+
+    <div class="glass-login">
+        <div class="brand-logo">
+    <span>SR</span>
+</div>
+
+        <h1>SR Ateliê</h1>
+        <p>Suellen Ramos Ateliê</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-error">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <label>Usuário</label>
+            <div class="input-box">
+                <i class="fas fa-user"></i>
+                <input type="text" name="usuario" required>
+            </div>
+
+            <label>Senha</label>
+            <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="senha" required>
+            </div>
+
+            <button type="submit" class="login-btn">Entrar</button>
+        </form>
+
+        <small>Demo: admin / admin123</small>
+    </div>
+
+</div>
+
+</body>
+</html>

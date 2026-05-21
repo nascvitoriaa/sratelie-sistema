@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>SRAteliê</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon"><i class="fas fa-cake-candles"></i></div>
+                <div>
+                <div class="sidebar-brand-name">SRAteliê</div>
+<div class="sidebar-brand-sub">Suellen Ramos Ateliê</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+                <a href="/clientes" class="nav-item"><i class="fas fa-users"></i><span>Clientes</span></a>
+                <a href="/pedidos" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Pedidos</span></a>
+                <a href="/produtos" class="nav-item"><i class="fas fa-cake-candles"></i><span>Produtos</span></a>
+                <a href="/ingredientes" class="nav-item"><i class="fas fa-cookie-bite"></i><span>Ingredientes</span></a>
+                <a href="/estoque" class="nav-item"><i class="fas fa-box-open"></i><span>Estoque</span></a>
+                <a href="/relatorios" class="nav-item"><i class="fas fa-chart-line"></i><span>Relatórios</span></a>
+                <a href="/configuracoes" class="nav-item"><i class="fas fa-cog"></i><span>Configurações</span></a>
+                <a href="/logout" class="nav-item"><i class="fas fa-sign-out-alt"></i><span>Sair</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">{% block title %}Dashboard{% endblock %}</div>
+
+                <div class="topbar-user">
+                    <div class="topbar-user-avatar">A</div>
+                    <div>
+                        <div class="topbar-user-name">Administrador</div>
+                        <div class="topbar-user-role">admin</div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="page-content">
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

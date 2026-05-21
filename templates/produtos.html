@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Produtos{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <div>
+        <h1>Produtos</h1>
+        <p>Gerencie os doces e produtos vendidos pelo SRAteliê.</p>
+    </div>
+
+    <button class="btn-primary" onclick="abrirModalProduto()">
+        <i class="fas fa-plus"></i>
+        Novo Produto
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Categoria</th>
+                    <th>Preço Venda</th>
+                    <th>Custo</th>
+                    <th>Lucro</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto.nome }}</td>
+                    <td>{{ produto.categoria }}</td>
+                    <td>R$ {{ "%.2f"|format(produto.preco_venda) }}</td>
+                    <td>R$ {{ "%.2f"|format(produto.custo_producao) }}</td>
+                    <td>R$ {{ "%.2f"|format(produto.preco_venda - produto.custo_producao) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-bg" id="modalProduto">
+    <div class="modal">
+        <h2>Novo Produto</h2>
+
+        <label>Nome do produto</label>
+        <input id="produto_nome">
+
+        <label>Descrição</label>
+        <input id="produto_descricao">
+
+        <label>Categoria</label>
+        <input id="produto_categoria" placeholder="Docinhos, Bolos, Sobremesas...">
+
+        <label>Preço de venda</label>
+        <input id="produto_preco" type="number" step="0.01">
+
+        <label>Custo de produção</label>
+        <input id="produto_custo" type="number" step="0.01">
+
+        <label>Tempo de produção em minutos</label>
+        <input id="produto_tempo" type="number">
+
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="fecharModalProduto()">Cancelar</button>
+            <button class="btn-primary" onclick="salvarProduto()">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function abrirModalProduto() {
+    document.getElementById("modalProduto").style.display = "flex";
+}
+
+function fecharModalProduto() {
+    document.getElementById("modalProduto").style.display = "none";
+}
+
+function salvarProduto() {
+    fetch("/api/produtos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nome: document.getElementById("produto_nome").value,
+            descricao: document.getElementById("produto_descricao").value,
+            categoria: document.getElementById("produto_categoria").value,
+            preco_venda: document.getElementById("produto_preco").value,
+            custo_producao: document.getElementById("produto_custo").value,
+            tempo_producao: document.getElementById("produto_tempo").value
+        })
+    }).then(() => location.reload());
+}
+</script>
+
+{% endblock %}

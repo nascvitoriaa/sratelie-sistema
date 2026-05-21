@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Relatórios{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <div>
+        <h1>Relatórios</h1>
+        <p>Visão geral do desempenho do SRAteliê.</p>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Faturamento</span>
+            <h2>R$ {{ "%.2f"|format(faturamento) }}</h2>
+            <p>Total vendido</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-dollar-sign"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Lucro</span>
+            <h2>R$ {{ "%.2f"|format(lucro) }}</h2>
+            <p>Resultado líquido</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Pedidos</span>
+            <h2>{{ total_pedidos }}</h2>
+            <p>Total registrados</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Ticket Médio</span>
+            <h2>
+                R$
+                {% if total_pedidos > 0 %}
+                    {{ "%.2f"|format(faturamento / total_pedidos) }}
+                {% else %}
+                    0.00
+                {% endif %}
+            </h2>
+            <p>Média por pedido</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-receipt"></i>
+        </div>
+    </div>
+</div>
+
+<div class="card sales-card">
+    <div class="sales-info">
+        <p>Desempenho visual</p>
+        <h2>SRAteliê Analytics</h2>
+        <span>Evolução simulada de vendas</span>
+    </div>
+
+    <div class="chart-area">
+        <div style="height: 22%"></div>
+        <div style="height: 38%"></div>
+        <div style="height: 48%"></div>
+        <div style="height: 33%"></div>
+        <div style="height: 58%"></div>
+        <div style="height: 44%"></div>
+        <div style="height: 74%"></div>
+        <div style="height: 60%"></div>
+        <div style="height: 85%"></div>
+        <div style="height: 95%"></div>
+    </div>
+</div>
+
+{% endblock %}

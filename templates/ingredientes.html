@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Ingredientes{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <div>
+        <h1>Ingredientes</h1>
+        <p>Controle os ingredientes usados na produção.</p>
+    </div>
+
+    <button class="btn-primary" onclick="abrirModalIngrediente()">
+        <i class="fas fa-plus"></i>
+        Novo Ingrediente
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Unidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Quantidade</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for ingrediente in ingredientes %}
+                <tr>
+                    <td>{{ ingrediente.nome }}</td>
+                    <td>{{ ingrediente.unidade }}</td>
+                    <td>R$ {{ "%.2f"|format(ingrediente.preco_unitario or 0) }}</td>
+                    <td>{{ ingrediente.estoque.quantidade if ingrediente.estoque else 0 }}</td>
+                    <td>
+                        {% if ingrediente.estoque %}
+                            {% if ingrediente.estoque.status() == "Baixo" %}
+                                <span class="badge danger">Baixo</span>
+                            {% elif ingrediente.estoque.status() == "Atenção" %}
+                                <span class="badge warning">Atenção</span>
+                            {% else %}
+                                <span class="badge success">OK</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-bg" id="modalIngrediente">
+    <div class="modal">
+        <h2>Novo Ingrediente</h2>
+
+        <label>Nome</label>
+        <input id="ingrediente_nome">
+
+        <label>Unidade</label>
+        <input id="ingrediente_unidade" placeholder="Kg, Unid, Litro...">
+
+        <label>Preço unitário</label>
+        <input id="ingrediente_preco" type="number" step="0.01">
+
+        <label>Quantidade atual</label>
+        <input id="ingrediente_qtd" type="number" step="0.01">
+
+        <label>Quantidade mínima</label>
+        <input id="ingrediente_min" type="number" step="0.01">
+
+        <label>Quantidade alerta</label>
+        <input id="ingrediente_alerta" type="number" step="0.01">
+
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="fecharModalIngrediente()">Cancelar</button>
+            <button class="btn-primary" onclick="salvarIngrediente()">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function abrirModalIngrediente() {
+    document.getElementById("modalIngrediente").style.display = "flex";
+}
+
+function fecharModalIngrediente() {
+    document.getElementById("modalIngrediente").style.display = "none";
+}
+
+function salvarIngrediente() {
+    fetch("/api/ingredientes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nome: document.getElementById("ingrediente_nome").value,
+            unidade: document.getElementById("ingrediente_unidade").value,
+            preco_unitario: document.getElementById("ingrediente_preco").value,
+            quantidade: document.getElementById("ingrediente_qtd").value,
+            quantidade_minima: document.getElementById("ingrediente_min").value,
+            quantidade_alerta: document.getElementById("ingrediente_alerta").value
+        })
+    }).then(() => location.reload());
+}
+</script>
+
+{% endblock %}

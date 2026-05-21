@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <div>
+        <h1>Clientes</h1>
+        <p>Gerencie os clientes cadastrados no SRAteliê.</p>
+    </div>
+
+    <button class="btn-primary" onclick="abrirModalCliente()">
+        <i class="fas fa-plus"></i>
+        Novo Cliente
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Cidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.telefone }}</td>
+                    <td>{{ cliente.email }}</td>
+                    <td>{{ cliente.cidade }}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deletarCliente({{ cliente.id }})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-bg" id="modalCliente">
+    <div class="modal">
+        <h2>Novo Cliente</h2>
+
+        <label>Nome</label>
+        <input id="nome">
+
+        <label>Telefone</label>
+        <input id="telefone">
+
+        <label>Email</label>
+        <input id="email">
+
+        <label>Cidade</label>
+        <input id="cidade">
+
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="fecharModalCliente()">Cancelar</button>
+            <button class="btn-primary" onclick="salvarCliente()">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function abrirModalCliente() {
+    document.getElementById("modalCliente").style.display = "flex";
+}
+
+function fecharModalCliente() {
+    document.getElementById("modalCliente").style.display = "none";
+}
+
+function salvarCliente() {
+    fetch("/api/clientes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nome: document.getElementById("nome").value,
+            telefone: document.getElementById("telefone").value,
+            email: document.getElementById("email").value,
+            cidade: document.getElementById("cidade").value
+        })
+    }).then(() => location.reload());
+}
+
+function deletarCliente(id) {
+    fetch(`/api/clientes/${id}`, {
+        method: "DELETE"
+    }).then(() => location.reload());
+}
+</script>
+
+{% endblock %}

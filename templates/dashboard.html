@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="welcome-row">
+    <div>
+        <h1>Bem-vinda, admin!</h1>
+        <p>Acompanhe o resumo do SRAteliê hoje.</p>
+    </div>
+    <div class="date-pill">
+        <i class="fas fa-calendar"></i>
+        21 de maio de 2026
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Clientes</span>
+            <h2>{{ total_clientes }}</h2>
+            <p>clientes cadastrados</p>
+        </div>
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Pedidos</span>
+            <h2>{{ total_pedidos }}</h2>
+            <p>pedidos registrados</p>
+        </div>
+        <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Produtos</span>
+            <h2>{{ total_produtos }}</h2>
+            <p>produtos ativos</p>
+        </div>
+        <div class="stat-icon"><i class="fas fa-cake-candles"></i></div>
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <span class="stat-label">Ingredientes</span>
+            <h2>{{ total_ingredientes }}</h2>
+            <p>itens no estoque</p>
+        </div>
+        <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3>Pedidos recentes</h3>
+                <p>Últimas movimentações do sistema</p>
+            </div>
+            <a href="/pedidos">Ver todos</a>
+        </div>
+
+        <div class="card-body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Cliente</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1027</td>
+                        <td>Maria Silva</td>
+                        <td><span class="badge success">Concluído</span></td>
+                        <td>R$ 120,00</td>
+                    </tr>
+                    <tr>
+                        <td>#1026</td>
+                        <td>João Souza</td>
+                        <td><span class="badge warning">Em preparo</span></td>
+                        <td>R$ 85,00</td>
+                    </tr>
+                    <tr>
+                        <td>#1025</td>
+                        <td>Ana Oliveira</td>
+                        <td><span class="badge danger">Pendente</span></td>
+                        <td>R$ 150,00</td>
+                    </tr>
+                    <tr>
+                        <td>#1024</td>
+                        <td>Carlos Lima</td>
+                        <td><span class="badge success">Concluído</span></td>
+                        <td>R$ 90,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3>Estoque baixo</h3>
+                <p>Ingredientes que precisam de atenção</p>
+            </div>
+        </div>
+
+        <div class="card-body stock-list">
+            <div><span>Chocolate em pó</span><strong>2 un.</strong></div>
+            <div><span>Manteiga</span><strong>1 un.</strong></div>
+            <div><span>Morango</span><strong>4 un.</strong></div>
+            <div><span>Leite condensado</span><strong>2 un.</strong></div>
+        </div>
+    </div>
+</div>
+
+<div class="card sales-card">
+    <div class="sales-info">
+        <p>Resumo de vendas este mês</p>
+        <h2>R$ 2.450,00</h2>
+        <span>Total faturado</span>
+    </div>
+
+    <div class="chart-area">
+        <div style="height: 28%"></div>
+        <div style="height: 50%"></div>
+        <div style="height: 38%"></div>
+        <div style="height: 65%"></div>
+        <div style="height: 45%"></div>
+        <div style="height: 78%"></div>
+        <div style="height: 58%"></div>
+        <div style="height: 92%"></div>
+        <div style="height: 70%"></div>
+        <div style="height: 82%"></div>
+    </div>
+</div>
+
+{% endblock %}

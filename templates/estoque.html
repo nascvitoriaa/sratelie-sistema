@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Estoque{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+    <div>
+        <h1>Estoque</h1>
+        <p>Gerencie as quantidades disponíveis dos ingredientes.</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Quantidade</th>
+                    <th>Mínimo</th>
+                    <th>Alerta</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in itens %}
+                <tr>
+                    <td>{{ item.ingrediente.nome }}</td>
+                    <td>
+                        <input type="number" step="0.01" id="qtd{{ item.id }}" value="{{ item.quantidade }}">
+                    </td>
+                    <td>{{ item.quantidade_minima }}</td>
+                    <td>{{ item.quantidade_alerta }}</td>
+                    <td>
+                        {% if item.status() == "Baixo" %}
+                            <span class="badge danger">Baixo</span>
+                        {% elif item.status() == "Atenção" %}
+                            <span class="badge warning">Atenção</span>
+                        {% else %}
+                            <span class="badge success">OK</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn-primary" onclick="atualizarEstoque({{ item.id }})">
+                            Salvar
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function atualizarEstoque(id) {
+    fetch(`/api/estoque/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            quantidade: document.getElementById(`qtd${id}`).value
+        })
+    }).then(() => location.reload());
+}
+</script>
+
+{% endblock %}
